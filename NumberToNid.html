@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number to Bio</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #00FF00;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .input-container input {
+            background-color: #222;
+            border: 2px solid #00FFFF;
+            padding: 10px;
+            color: #FF0000;
+            font-size: 16px;
+            width: 300px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 0 10px #00FFFF;
+        }
+
+        .input-container button {
+            background-color: #333;
+            border: 2px solid #FFFF00;
+            color: #FFFF00;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+            box-shadow: 0 0 10px #FFFF00;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #00FF00;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-bubble {
+            background-color: #222;
+            color: #00FF00;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px;
+            width: 300px;
+            text-align: left;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .bubble-container {
+            margin-top: 30px;
+        }
+
+        .badol-text {
+            color: #FF0000;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Number to Bio</h1>
+    <div class="input-container">
+        <input type="text" id="numberInput" placeholder="Enter Number" title="Enter a number to get a random location">
+        <button onclick="getLocationDetails()">Submit</button>
+    </div>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+    <div class="bubble-container" id="resultContainer"></div>
+    <div class="join-button-container">
+        <a href="https://t.me/BDCYBER24" target="_blank" class="join-button">Join Telegram</a>
+    </div>
+</div>
+
+<script>
+    function getLocationDetails() {
+        const numberInput = document.getElementById('numberInput').value;
+        const resultContainer = document.getElementById('resultContainer');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // Show loading overlay
+        loadingOverlay.style.display = 'flex';
+        
+        // Simulate loading for 4 seconds
+        setTimeout(() => {
+            // Generate random NID, DOB, and Location
+            const randomNID = generateRandomNID();
+            const randomDOB = generateRandomDOB();
+            const randomLocation = generateRandomLocation();
+
+            // Hide loading overlay
+            loadingOverlay.style.display = 'none';
+
+            // Display results in bubbles
+            resultContainer.innerHTML = `
+                <div class="result-bubble">
+                    <strong>Number:</strong> ${numberInput}<br>
+                    <strong>NID:</strong> ${randomNID}<br>
+                    <strong>DOB:</strong> ${randomDOB}<br>
+                    <strong>Location:</strong> ${randomLocation}
+                </div>
+            `;
+
+            // Show "badol" text after 4 seconds
+            setTimeout(() => {
+                const badolText = document.createElement('div');
+                badolText.classList.add('badol-text');
+                badolText.textContent = 'badol';
+                resultContainer.appendChild(badolText);
+            }, 4000);
+        }, 4000);
+    }
+
+    function generateRandomNID() {
+        let nid = '';
+        for (let i = 0; i < 10; i++) {
+            nid += Math.floor(Math.random() * 10);
+        }
+        return nid;
+    }
+
+    function generateRandomDOB() {
+        const year = Math.floor(Math.random() * (2005 - 1950 + 1)) + 1950;
+        const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+        const day = String(Math.floor(Math.random() * 31) + 1).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function generateRandomLocation() {
+        const locations = [
+            "Dhaka", "Chittagong", "Rajshahi", "Sylhet", "Khulna", "Barisal", "Rangpur", "Mymensingh",
+            "Bogra", "Comilla", "Cox's Bazar", "Narsingdi", "Netrakona", "Chandpur", "Tangail",
+            "Faridpur", "Jashore", "Khulna", "Pabna", "Naogaon", "Magura", "Satkhira", "Narayanganj",
+            "Madaripur", "Netrokona", "Thakurgaon", "Chandpur", "Lalmonirhat", "Jhalokathi", "Manikganj"
+        ];
+        return locations[Math.floor(Math.random() * locations.length)];
+    }
+</script>
+
+</body>
+</html>
